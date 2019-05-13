@@ -97,6 +97,7 @@ for imagepath in gt_imdb:
                     color=(255, 0, 255))
 
         print(bbox)
+    
 
         cv2.rectangle(image, (int(bbox[0]), int(bbox[1])), (int(bbox[2]), int(bbox[3])), (0, 0, 255), 1)
         # ####################### 1
