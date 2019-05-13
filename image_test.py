@@ -79,6 +79,7 @@ test_data = TestLoader(gt_imdb)
 all_boxes, landmarks = mtcnn_detector.detect_face(test_data)
 print('box num', len(all_boxes[0]))
 count = 0
+img_len = len(gt_imdb)
 
 for imagepath in gt_imdb:
     image = cv2.imread(imagepath)
@@ -90,6 +91,7 @@ for imagepath in gt_imdb:
     # image[0:rols, 0:cols] = hair
 
     for bbox, landmark in zip(all_boxes[count], landmarks[count]):
+    # for bbox in all_boxes:
         cv2.putText(image, str(int(bbox[0])) + ',' + str(int(bbox[1])), (0, 100),
                     cv2.FONT_HERSHEY_TRIPLEX, 1,
                     color=(255, 0, 255))
@@ -124,9 +126,10 @@ for imagepath in gt_imdb:
         cv2.putText(image, str(int(o_x)) + ',' + str(int(o_y)), (0, 50),
                     cv2.FONT_HERSHEY_TRIPLEX, 1,
                     color=(255, 0, 255))
-        if o_x < 0 or o_y < 0:
+
+        if o_x < 0 or o_y < 0 or o_x + rows > 250 or o_y + cols > 250:
             print("o_x: {}; o_y: {}".format(o_x, o_y))
-            continue
+            break
         # o_x, o_y = 0,50
 
         cv2.rectangle(image, (o_x, o_y), (o_x + cols, o_y + rows), (0, 0, 255), 1)
@@ -159,7 +162,7 @@ for imagepath in gt_imdb:
         image[o_x:o_x + rows, o_y:o_y + cols] = dst
         #
 
-        count = count + 1
+
         # cv2.imwrite("result_landmark/%d.png" %(count),image)
 
         # cv2.imshow("lala", image)
@@ -170,3 +173,5 @@ for imagepath in gt_imdb:
         # cv2.waitKey(0)
     # cv2.imshow("lala", image)
     # cv2.waitKey(0)
+    count = count + 1
+
