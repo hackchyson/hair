@@ -371,17 +371,17 @@ class MtcnnDetector(object):
             boxes, boxes_c,_ = self.detect_rnet(img, boxes_c)
             if boxes_c is None:
                 return np.array([]),np.array([])
-    
+
             t2 = time.time() - t
             t = time.time()
-    
+
         # onet
         t3 = 0
         if self.onet_detector:
             boxes, boxes_c,landmark = self.detect_onet(img, boxes_c)
             if boxes_c is None:
                 return np.array([]),np.array([])
-    
+
             t3 = time.time() - t
             t = time.time()
             print(
@@ -389,6 +389,7 @@ class MtcnnDetector(object):
                                                                                                                 t3))
     
         return boxes_c,landmark
+        # return boxes_c, None
     def detect_face(self, test_data):
         all_boxes = []#save each image's bboxes
         landmarks = []
