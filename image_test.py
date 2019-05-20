@@ -9,8 +9,8 @@ from loader import TestLoader
 import cv2
 import os
 import json
-import numpy as np
 
+# hair location config
 json_config = "config/hair.json"
 with open(json_config, "r") as json_file:
     data = json.load(json_file)
@@ -20,9 +20,9 @@ with open(json_config, "r") as json_file:
     x_widen = data["x_widen"]
     y_widen = data['y_widen']
 
+# model config
 test_mode = "ONet"
 thresh = [0.9, 0.6, 0.7]
-# thresh = [0.8, 0.7, 0.6]
 
 min_face_size = 24
 stride = 2
@@ -60,9 +60,6 @@ mtcnn_detector = MtcnnDetector(detectors=detectors, min_face_size=min_face_size,
 
 gt_imdb = []
 
-path = "data"
-
-# hack
 path = "data/source"
 
 for item in os.listdir(path):
@@ -70,17 +67,7 @@ for item in os.listdir(path):
         continue
     gt_imdb.append(os.path.join(path, item))
 
-# print(gt_imdb)
-
-gt_imdb = ['data/source/Zhang_Ziyi_0001.jpg']
-# gt_imdb = ['data/source/xz-1.jpg']
 # gt_imdb = ['data/hairs/obama.mp4']
-
-
-
-# print('box num', len(all_boxes[0]))
-
-# img_len = len(gt_imdb)
 
 
 hair = cv2.imread('data/hairs/hair01.jpg')
@@ -110,7 +97,7 @@ def get_video(path, hair):
             #             color=(255, 0, 255))
             dst = (int((bbox[2] - bbox[0]) * x_widen), int((bbox[3] - bbox[1]) * y_widen))
             hair = cv2.imread('data/hairs/hair01.jpg')
-            hair = cv2.resize(hair, dst, 0, 0,cv2.INTER_LANCZOS4)
+            hair = cv2.resize(hair, dst, 0, 0, cv2.INTER_LANCZOS4)
             # hair = cv2.pyrUp(hair,dst)
             rows, cols, channels = hair.shape
 
@@ -124,7 +111,6 @@ def get_video(path, hair):
             if o_x < 0 or o_y < 0 or o_x + rows > f_h or o_y + cols > f_w:
                 print("o_x: {}; o_y: {}".format(o_x, o_y))
                 break
-            # o_x, o_y = 0,50
 
             # cv2.rectangle(frame, (o_x, o_y), (o_x + cols, o_y + rows), (0, 0, 255), 7)
 
@@ -172,35 +158,15 @@ def read_img(gt_imdb):
         hair = cv2.imread('data/hairs/1111.png')
         # rows, cols, channels = hair.shape
 
-        # print(hair.shape, image.shape)
-        # image[0:rols, 0:cols] = hair
-
         for bbox, landmark in zip(all_boxes[count], landmarks[count]):
-        # for bbox in all_boxes:
+            # for bbox in all_boxes:
             cv2.putText(image, str(int(bbox[0])) + ',' + str(int(bbox[1])), (0, 100),
                         cv2.FONT_HERSHEY_TRIPLEX, 1,
                         color=(255, 0, 255))
 
             print(bbox)
 
-
             cv2.rectangle(image, (int(bbox[0]), int(bbox[1])), (int(bbox[2]), int(bbox[3])), (0, 0, 255), 1)
-            # ####################### 1
-            # #
-            # hair = cv2.resize(hair, (int((bbox[2] - bbox[0])), int(bbox[3] - bbox[1])))
-            # rols, cols, channels = hair.shape
-            # o_x = int(bbox[0] - (bbox[2] - bbox[0]) * 4 / 10)
-            # o_y = int(bbox[1])
-            # # print(o_x, o_y)
-            # # image[o_x:rols + o_x, o_y: cols + o_y] = hair
-            #
-            # ######################### 2
-            # roi = cv2.addWeighted(hair, 0.8, image[o_x:rols + o_x, o_y: cols + o_y], 0.4, 0.0)
-            # image[o_x:rols + o_x, o_y: cols + o_y] = roi
-
-            # for landmark in landmarks[count]:
-            #     for i in range(int(len(landmark)/2)):
-            #         cv2.circle(image, (int(landmark[2*i]),int(int(landmark[2*i+1]))), 3, (0,0,255))
 
             ############################ 3
             hair = cv2.resize(hair, (int((bbox[2] - bbox[0]) * x_widen), int((bbox[3] - bbox[1]) * y_widen)))
@@ -216,7 +182,6 @@ def read_img(gt_imdb):
             if o_x < 0 or o_y < 0 or o_x + rows > 250 or o_y + cols > 250:
                 print("o_x: {}; o_y: {}".format(o_x, o_y))
                 break
-            # o_x, o_y = 0,50
 
             cv2.rectangle(image, (o_x, o_y), (o_x + cols, o_y + rows), (0, 0, 255), 1)
 
@@ -248,7 +213,6 @@ def read_img(gt_imdb):
             image[o_x:o_x + rows, o_y:o_y + cols] = dst
             #
 
-
             # cv2.imwrite("result_landmark/%d.png" %(count),image)
 
             cv2.imshow("lala", image)
@@ -256,7 +220,7 @@ def read_img(gt_imdb):
             new_path = img_list[0].split('/')[0] + '/target/' + img_list[0].split('/')[-1] + '-hair.jpg'
             # print(new_path)
             # cv2.imwrite(new_path, image)
-            print('image shape: ',image.shape)
+            print('image shape: ', image.shape)
             cv2.waitKey(0)
         count = count + 1
 
