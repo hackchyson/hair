@@ -23,13 +23,13 @@ def resize(w, h, w_box, h_box, pil_image):
     return pil_image.resize((width, height), Image.ANTIALIAS)
 
 
-def take_snapshot(parm):
+def take_snapshot(event):
     print("有人给你点赞啦！")
+    print(event.widget['text'])
 
-    # video_loop(img_path)
     global img_path
-    img_path = parm
-    print(img_path)
+    img_path = event.widget['text']
+    print('dani'*30,img_path)
 
 
 class CanvasDemo:
@@ -41,11 +41,6 @@ class CanvasDemo:
         self.panel = Label(self.window, height=500, width=500)  # initialize image panel
         self.panel.pack()
 
-        # self.canvas = Canvas(self.window, width=10, height=10, bg="red")
-        # self.canvas.pack()
-
-        # self.window.config(cursor="arrow")
-
         frame = Frame(self.window)
         frame.pack()
 
@@ -55,14 +50,20 @@ class CanvasDemo:
             if file_name.endswith('.jpg'):
                 img_path = os.path.join(path, file_name)
                 im = Image.open(img_path)
-                print(img_path)
                 w, h = im.size
                 pil_image_resized = resize(w, h, 80, 80, im)
                 exec('tk_image{} = ImageTk.PhotoImage(pil_image_resized)'.format(index))
 
+                # exec(
+                #     'button = Button(frame, text=index, command=lambda: take_snapshot(img_path), image=tk_image{})'.format(
+                #         index))
+
                 exec(
-                    'button = Button(frame, text=index, command=take_snapshot, image=tk_image{})'.format(
+                    'button = Button(frame, text=img_path, image=tk_image{})'.format(
                         index))
+                exec("button.bind('<Button-1>',take_snapshot)")
+
+                print('dani'*20,img_path)
                 exec('button.grid(row=1, column=index)')
 
                 index += 1
@@ -88,30 +89,21 @@ class CanvasDemo:
     #     self.canvas.delete("rect", "oval", "arc", "polygon", "line", "string")
 
     def video_loop(self):
-        # print('-----',img_path)
         success, img = self.camera.read()  # 从摄像头读取照片
 
         if success:
             cv2.waitKey(100)
             global img_path
-
+            print(img_path)
             imgtk = combine.combine(img, img_path)
-            # print(imgtk)
-            # print(imgtk.shape)
 
             cv2image = cv2.cvtColor(imgtk, cv2.COLOR_BGR2RGBA)  # 转换颜色从BGR到RGBA
             current_image = Image.fromarray(cv2image)  # 将图像转换成Image对象
             imgtk = ImageTk.PhotoImage(image=current_image)
-            # imgtk = ImageTk.PhotoImage(image=Image.fromqpixmap(imgtk))
-
-            # print(type(current_image))
-            # print(current_image.shape)
-            # print(current_image[0, 0, :])
 
             self.panel.imgtk = imgtk
             self.panel.config(image=imgtk)
-            self.window.after(1, self.video_loop())
-            # print(img_path)
+            self.window.after(1, self.video_loop)
 
 
 CanvasDemo()
