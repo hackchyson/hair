@@ -2,6 +2,9 @@ from tkinter import *
 from PIL import Image, ImageTk
 import cv2
 import combine
+import os
+
+img_path = 'data/hairs/hair01.jpg'
 
 
 def resize(w, h, w_box, h_box, pil_image):
@@ -20,51 +23,51 @@ def resize(w, h, w_box, h_box, pil_image):
     return pil_image.resize((width, height), Image.ANTIALIAS)
 
 
-def take_snapshot(path):
+def take_snapshot(parm):
     print("有人给你点赞啦！")
 
     # video_loop(img_path)
-    img_path = '/Users/dani/Codes/workspaces_AI/hair/data/hairs/hair02.jpg'
+    global img_path
+    img_path = parm
     print(img_path)
 
 
 class CanvasDemo:
     def __init__(self):
-        self. window = Tk()
+        self.window = Tk()
         self.window.title("CanvasDemo")
         self.camera = cv2.VideoCapture(0)  # 摄像头
-        self.panel = Label(self.window, height=300, width=300)  # initialize image panel
-        self.panel.pack(padx=100, pady=100)
-        self. window.config(cursor="arrow")
 
-        self.canvas = Canvas(self.window, width=500, height=500, bg="White")
-        self.canvas.pack()
+        self.panel = Label(self.window, height=500, width=500)  # initialize image panel
+        self.panel.pack()
+
+        # self.canvas = Canvas(self.window, width=10, height=10, bg="red")
+        # self.canvas.pack()
+
+        # self.window.config(cursor="arrow")
 
         frame = Frame(self.window)
         frame.pack()
 
-        img_path = '/Users/dani/Codes/workspaces_AI/hair/data/hairs/hair01.jpg'
-        im = Image.open(img_path)
-        w, h = im.size
-        pil_image_resized = resize(w, h, 80, 80, im)
-        tk_image = ImageTk.PhotoImage(pil_image_resized)
+        path = 'data/hairs'
+        index = 1
+        for file_name in os.listdir(path):
+            if file_name.endswith('.jpg'):
+                img_path = os.path.join(path, file_name)
+                im = Image.open(img_path)
+                print(img_path)
+                w, h = im.size
+                pil_image_resized = resize(w, h, 80, 80, im)
+                exec('tk_image{} = ImageTk.PhotoImage(pil_image_resized)'.format(index))
 
-        btRectangle = Button(frame, text="长方形", command=lambda: take_snapshot(img_path), image=tk_image)
-        btOval = Button(frame, text="椭 圆", command=lambda: take_snapshot(img_path), image=tk_image)
-        btArc = Button(frame, text="圆 弧", command=lambda: take_snapshot(img_path), image=tk_image)
-        btPolygon = Button(frame, text="多边形", command=lambda: take_snapshot(img_path), image=tk_image)
-        btLine = Button(frame, text=" 线 ", command=lambda: take_snapshot(img_path), image=tk_image)
-        btString = Button(frame, text="文 字", command=lambda: take_snapshot(img_path), image=tk_image)
-        btClear = Button(frame, text="清 空", command=lambda: take_snapshot(img_path), image=tk_image)
+                exec(
+                    'button = Button(frame, text=index, command=take_snapshot, image=tk_image{})'.format(
+                        index))
+                exec('button.grid(row=1, column=index)')
 
-        btRectangle.grid(row=1, column=1)
-        btOval.grid(row=1, column=2)
-        btArc.grid(row=1, column=3)
-        btPolygon.grid(row=1, column=4)
-        btLine.grid(row=1, column=5)
-        btString.grid(row=1, column=6)
-        btClear.grid(row=1, column=7)
+                index += 1
 
+        self.video_loop()
         self.window.mainloop()
 
     #
@@ -84,16 +87,17 @@ class CanvasDemo:
     # def clearCanvas(self):
     #     self.canvas.delete("rect", "oval", "arc", "polygon", "line", "string")
 
-    def video_loop(self, img_path=None):
+    def video_loop(self):
         # print('-----',img_path)
         success, img = self.camera.read()  # 从摄像头读取照片
 
         if success:
             cv2.waitKey(100)
+            global img_path
 
             imgtk = combine.combine(img, img_path)
-            print(imgtk)
-            print(imgtk.shape)
+            # print(imgtk)
+            # print(imgtk.shape)
 
             cv2image = cv2.cvtColor(imgtk, cv2.COLOR_BGR2RGBA)  # 转换颜色从BGR到RGBA
             current_image = Image.fromarray(cv2image)  # 将图像转换成Image对象
@@ -105,8 +109,8 @@ class CanvasDemo:
             # print(current_image[0, 0, :])
 
             self.panel.imgtk = imgtk
-            self. panel.config(image=imgtk)
-            self.window.after(1, lambda: self.video_loop(img_path))
+            self.panel.config(image=imgtk)
+            self.window.after(1, self.video_loop())
             # print(img_path)
 
 

@@ -29,7 +29,7 @@ prefix = ['model/MTCNN_model/PNet_landmark/PNet', 'model/MTCNN_model/RNet_landma
 epoch = [18, 14, 16]
 batch_size = [2048, 256, 16]
 model_path = ['%s-%s' % (x, y) for x, y in zip(prefix, epoch)]
-print(model_path)
+# print(model_path)
 # load pnet model
 if slide_window:
     PNet = Detector(P_Net, 12, batch_size[0], model_path[0])
@@ -80,9 +80,9 @@ def combine(frame, path):
                         color=(255, 0, 255))
 
             if o_x < 0 or o_y < 0 or o_x + rows > f_h  or o_y + cols > f_w :
-                print("o_x: {}; o_y: {}".format(o_x, o_y))
+                # print("o_x: {}; o_y: {}".format(o_x, o_y))
                 break
-            print('dani'*3)
+            # print('dani'*3)
             img2gray = cv2.cvtColor(hair, cv2.COLOR_BGR2GRAY)
             ret, mask = cv2.threshold(img2gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)  # 这个254很重要
             mask_inv = cv2.bitwise_not(mask, dst=None, mask=None)

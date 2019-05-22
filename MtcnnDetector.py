@@ -384,9 +384,9 @@ class MtcnnDetector(object):
 
             t3 = time.time() - t
             t = time.time()
-            print(
-                "time cost " + '{:.3f}'.format(t1 + t2 + t3) + '  pnet {:.3f}  rnet {:.3f}  onet {:.3f}'.format(t1, t2,
-                                                                                                                t3))
+            # print(
+            #     "time cost " + '{:.3f}'.format(t1 + t2 + t3) + '  pnet {:.3f}  rnet {:.3f}  onet {:.3f}'.format(t1, t2,
+            #                                                                                                     t3))
     
         return boxes_c,landmark
         # return boxes_c, None
@@ -441,8 +441,8 @@ class MtcnnDetector(object):
                     landmarks.append(np.array([]))                    
                     batch_idx += 1
                     continue
-                print(
-                    "time cost " + '{:.3f}'.format(sum_time) + '  pnet {:.3f}  rnet {:.3f}  onet {:.3f}'.format(t1, t2,t3))
+                # print(
+                #     "time cost " + '{:.3f}'.format(sum_time) + '  pnet {:.3f}  rnet {:.3f}  onet {:.3f}'.format(t1, t2,t3))
                                                                                                                     
                                                                                                                    
             all_boxes.append(boxes_c)
@@ -494,9 +494,9 @@ class MtcnnDetector(object):
                 all_boxes.append(np.array([]))
                 landmarks.append(np.array([]))
                 # continue
-            print(
-                "time cost " + '{:.3f}'.format(sum_time) + '  pnet {:.3f}  rnet {:.3f}  onet {:.3f}'.format(t1, t2,
-                                                                                                            t3))
+            # print(
+            #     "time cost " + '{:.3f}'.format(sum_time) + '  pnet {:.3f}  rnet {:.3f}  onet {:.3f}'.format(t1, t2,
+            #                                                                                                 t3))
 
         all_boxes.append(boxes_c)
         landmarks.append(landmark)

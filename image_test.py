@@ -82,8 +82,8 @@ def get_video(path, hair):
     # cv2.cam
     # 读帧
     success, frame = videoCapture.read()
-    print(type(frame))
-    print(frame.shape)
+    # print(type(frame))
+    # print(frame.shape)
     f_h, f_w, f_c = frame.shape
     cont = 0
     while success:
@@ -109,7 +109,7 @@ def get_video(path, hair):
                         color=(255, 0, 255))
 
             if o_x < 0 or o_y < 0 or o_x + rows > f_h or o_y + cols > f_w:
-                print("o_x: {}; o_y: {}".format(o_x, o_y))
+                # print("o_x: {}; o_y: {}".format(o_x, o_y))
                 break
 
             # cv2.rectangle(frame, (o_x, o_y), (o_x + cols, o_y + rows), (0, 0, 255), 7)
@@ -121,7 +121,7 @@ def get_video(path, hair):
             #
             # cv2.imshow('mask', mask_inv)
             # Now black-out the area of logo in ROI
-            print(rows, cols, channels)
+            # print(rows, cols, channels)
             #
             roi = frame[o_x:o_x + rows, o_y:o_y + cols]
 
