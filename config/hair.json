@@ -1,6 +1,38 @@
 {
-  "x_shift_ratio": 0.46,
-  "y_shift_ratio": 0.3,
-  "x_widen": 1.6,
-  "y_widen": 1.5
+  "hair01": {
+    "x_shift_ratio": 0.46,
+    "y_shift_ratio": 0.3,
+    "x_widen": 1.6,
+    "y_widen": 1.5
+  },
+  "hair02": {
+    "x_shift_ratio": 0.26,
+    "y_shift_ratio": 0.35,
+    "x_widen": 1.7,
+    "y_widen": 1.8
+  },
+  "hair03": {
+    "x_shift_ratio": 0.26,
+    "y_shift_ratio": 0.35,
+    "x_widen": 1.7,
+    "y_widen": 1.8
+  },
+  "hair04": {
+    "x_shift_ratio": 0.35,
+    "y_shift_ratio": 0.3,
+    "x_widen": 1.6,
+    "y_widen": 1.5
+  },
+  "hair05": {
+    "x_shift_ratio": 0.3,
+    "y_shift_ratio": 0.25,
+    "x_widen": 1.6,
+    "y_widen": 1.5
+  },
+  "hair06": {
+    "x_shift_ratio": 0.6,
+    "y_shift_ratio": 0.3,
+    "x_widen": 1.6,
+    "y_widen": 1.5
+  }
 }

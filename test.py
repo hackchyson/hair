@@ -38,7 +38,7 @@ class CanvasDemo:
         self.window.title("CanvasDemo")
         self.camera = cv2.VideoCapture(0)  # 摄像头
 
-        self.panel = Label(self.window, height=500, width=500)  # initialize image panel
+        self.panel = Label(self.window, height=650, width=800)  # initialize image panel
         self.panel.pack()
 
         frame = Frame(self.window)

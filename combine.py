@@ -4,16 +4,12 @@ from fcn_detector import FcnDetector
 from mtcnn_model import P_Net, R_Net, O_Net
 import cv2
 import json
+import os
 
 # hair location config
 json_config = "config/hair.json"
-with open(json_config, "r") as json_file:
-    data = json.load(json_file)
-
-    x_shift_ratio = data['x_shift_ratio']
-    y_shift_ratio = data['y_shift_ratio']
-    x_widen = data["x_widen"]
-    y_widen = data['y_widen']
+json_file = open(json_config, "r")
+data = json.load(json_file)
 
 # model config
 test_mode = "ONet"
@@ -54,6 +50,14 @@ frame_buf = None
 
 
 def combine(frame, path):
+    basename = os.path.basename(path)
+
+    file_prefix = basename.split('.')[0]
+    x_shift_ratio = data[file_prefix]['x_shift_ratio']
+    y_shift_ratio = data[file_prefix]['y_shift_ratio']
+    x_widen = data[file_prefix]["x_widen"]
+    y_widen = data[file_prefix]['y_widen']
+
     f_h, f_w, f_c = frame.shape
     all_boxes, _ = mtcnn_detector.detect(frame)
     global frame_buf
@@ -79,7 +83,7 @@ def combine(frame, path):
                         cv2.FONT_HERSHEY_TRIPLEX, 1,
                         color=(255, 0, 255))
 
-            if o_x < 0 or o_y < 0 or o_x + rows > f_h  or o_y + cols > f_w :
+            if o_x < 0 or o_y < 0 or o_x + rows > f_h or o_y + cols > f_w:
                 # print("o_x: {}; o_y: {}".format(o_x, o_y))
                 break
             # print('dani'*3)
