@@ -12,10 +12,10 @@
     "y_widen": 1.8
   },
   "hair03": {
-    "x_shift_ratio": 0.26,
-    "y_shift_ratio": 0.35,
-    "x_widen": 1.7,
-    "y_widen": 1.8
+    "x_shift_ratio": 0.66,
+    "y_shift_ratio": 0.15,
+    "x_widen": 1.2,
+    "y_widen": 1.4
   },
   "hair04": {
     "x_shift_ratio": 0.35,
@@ -30,6 +30,12 @@
     "y_widen": 1.5
   },
   "hair06": {
+    "x_shift_ratio": 0.6,
+    "y_shift_ratio": 0.3,
+    "x_widen": 1.6,
+    "y_widen": 1.5
+  },
+  "hair08": {
     "x_shift_ratio": 0.6,
     "y_shift_ratio": 0.3,
     "x_widen": 1.6,

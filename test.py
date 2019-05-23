@@ -92,7 +92,7 @@ class CanvasDemo:
         success, img = self.camera.read()  # 从摄像头读取照片
 
         if success:
-            cv2.waitKey(100)
+            cv2.waitKey(1)
             global img_path
             print(img_path)
             imgtk = combine.combine(img, img_path)
